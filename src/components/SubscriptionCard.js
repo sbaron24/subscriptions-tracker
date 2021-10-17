@@ -1,14 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function SubscriptionCard(props) {
-
+  
   return (
-    <div className="card">
-      <h3>{props.name}</h3>
-      <p>{props.price}</p>
-      <p>{props.frequency}</p>
-      <p>{props.description}</p>
-      <br/>
-    </div>
+    <>
+      <div className="card">
+      <Link to={`/subscription/${props.id}`}>
+        <h3>{props.name}</h3>
+      </Link>
+        <p>{props.price}</p>
+        <p>{props.frequency}</p>
+        <p>{props.description}</p>
+        <br/>
+      </div>
+    </>
   )
 }

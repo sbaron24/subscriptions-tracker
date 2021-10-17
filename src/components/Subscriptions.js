@@ -26,6 +26,7 @@ export default function Subscriptions() {
           {data.map(subscription => {
             return (
               <SubscriptionCard
+                id={subscription.id}
                 key={subscription.id}
                 name={subscription.name}
                 price={subscription.price}

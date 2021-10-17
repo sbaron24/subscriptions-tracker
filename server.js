@@ -18,6 +18,11 @@ app.get('/api/subscriptions', (req, res) => {
   let data = JSON.parse(fs.readFileSync("db.json"))
   res.json(data)
 });
+app.get('/api/subscriptions/:id', (req, res) => { 
+  let data = JSON.parse(fs.readFileSync("db.json"))
+  const record = data.filter(record => record.id === parseInt(req.params.id))[0]
+  res.send(record)
+});
 app.post('/api/subscriptions', (req, res) => {
   let data = JSON.parse(fs.readFileSync("db.json"))
   const id = data.length + 1
@@ -28,7 +33,6 @@ app.post('/api/subscriptions', (req, res) => {
   fs.writeFileSync("db.json", JSON.stringify(data))
   res.json(newData)
 });
-
 app.use(function (err, req, res, next) {
   if (err) {
     console.log('Error', err);
