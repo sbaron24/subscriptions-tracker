@@ -13,6 +13,9 @@ export default function SubscriptionCard(props) {
         <p>{props.frequency}</p>
         <p>{props.description}</p>
         <br/>
+        <Link to={`/subscription/${props.id}/edit`}>
+          <p>Edit</p>
+        </Link>
       </div>
     </>
   )

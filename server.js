@@ -23,6 +23,27 @@ app.get('/api/subscriptions/:id', (req, res) => {
   const record = data.filter(record => record.id === parseInt(req.params.id))[0]
   res.send(record)
 });
+app.put('/api/subscriptions/:id', (req, res) => {
+  switch (req.query.action) {
+  case 'edit':
+    let currentData = JSON.parse(fs.readFileSync("db.json"))
+    const { name, price, frequency, description } = req.body // sanitization..
+    const recordsWithUpdate = currentData.map(record => {
+      if (record.id === parseInt(req.params.id)) {
+        return { id: record.id, name, price, frequency, description, created_at: record.created_at, updated_at: new Date().toUTCString() }
+      } else {
+        return record
+      }
+    })
+    fs.writeFileSync("db.json", JSON.stringify(recordsWithUpdate))
+    res.sendStatus(200)
+    break
+  default:
+    res.sendStatus(400)
+    console.log(`Sorry, we are out of ideas..`);
+  }
+});
+
 app.post('/api/subscriptions', (req, res) => {
   let data = JSON.parse(fs.readFileSync("db.json"))
   const id = data.length + 1

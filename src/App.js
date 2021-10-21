@@ -8,6 +8,7 @@ import {
 import Subscriptions from "./components/Subscriptions";
 import New from "./components/New"
 import Subscription from "./components/Subscription"
+import Edit from "./components/Edit"
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient()
@@ -29,7 +30,8 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <Switch>
             <Route path="/new" children={<New />} />
-            <Route path="/subscription/:id" children={<Subscription />} />
+            <Route exact path="/subscription/:id" children={<Subscription />} />
+            <Route path="/subscription/:id/edit" children={<Edit />} />
             <Route path="/" children={<Subscriptions />} />
           </Switch>
         </QueryClientProvider>

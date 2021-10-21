@@ -10,7 +10,6 @@ const fetchSubscriptions = async () => {
 
 export default function Subscriptions() {
   const { data, status } = useQuery('subscriptions', fetchSubscriptions);
-  console.log(data)
 
   return (
     <div>
