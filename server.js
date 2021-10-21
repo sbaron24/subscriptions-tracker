@@ -38,17 +38,31 @@ app.put('/api/subscriptions/:id', (req, res) => {
     fs.writeFileSync("db.json", JSON.stringify(recordsWithUpdate))
     res.sendStatus(200)
     break
-  default:
-    res.sendStatus(400)
-    console.log(`Sorry, we are out of ideas..`);
-  }
+    default:
+      res.sendStatus(400)
+      console.log(`Sorry, we are out of ideas..`);
+    }
+  });
+app.delete('/api/subscriptions/:id', (req, res) => {
+  let currentData = JSON.parse(fs.readFileSync("db.json"))
+  const recordsWithUpdate = currentData.filter((record) => {
+    if (record.id !== parseInt(req.params.id)) {
+      return record
+    }
+  })
+  fs.writeFileSync("db.json", JSON.stringify(recordsWithUpdate))
+  res.sendStatus(200)
 });
 
 app.post('/api/subscriptions', (req, res) => {
   let data = JSON.parse(fs.readFileSync("db.json"))
-  const id = data.length + 1
+
+  // Computed fields - id, created_at, updated_at
+  const maxReduce = (curMax, curVal) => Math.max(curMax, curVal)
+  const id = data.map(record => record.id).reduce(maxReduce) + 1
   const created_at = new Date().toUTCString()
   const updated_at = new Date().toUTCString()
+
   const newData = { ...req.body, id, created_at, updated_at}
   data.push(newData)
   fs.writeFileSync("db.json", JSON.stringify(data))
